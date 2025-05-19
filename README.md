@@ -246,3 +246,10 @@ A seguir estão listadas as principais rotas disponíveis na API do projeto Mott
 | PUT    | `/qrcodes/{id}`          | Atualizar QR Code        |
 | DELETE | `/qrcodes/{id}`          | Excluir QR Code          |
 
+## Implementações Futuras
+
+- DTO's para respostas, não adicionamos no momento porque não planejamos quais dados da API vão ser necessários para o Front
+- Spring Security e criptografia de senha
+- Implementação do NoSQL (MongoDB)
+- Lógica para alterar dados das tabelas a partir do NoSQL
+- Otimizar requisições do banco de dados
