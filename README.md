@@ -75,13 +75,6 @@ mvn clean package
 java -jar target/mottracker-0.0.1-SNAPSHOT.jar
 ```
 
-> Se estiver usando Gradle:
-
-```bash
-./gradlew build
-java -jar build/libs/mottracker-0.0.1-SNAPSHOT.jar
-```
-
 ### Acessar a API
 
 * A API estará acessível em: [http://localhost:8080](http://localhost:8080)
