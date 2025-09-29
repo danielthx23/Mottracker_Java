@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+    <header th:fragment="header" class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/dashboard">
+            <strong>Mottracker</strong>
+        </a>
+        
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <span class="navbar-text me-3" sec:authorize="isAuthenticated()">
+                    Olá, <span th:text="${#authentication.name}"></span>!
+                </span>
+                <a class="btn btn-outline-light btn-sm" href="/logout" sec:authorize="isAuthenticated()">
+                    Sair
+                </a>
+            </div>
+        </div>
+    </header>
+</body>
+</html>
+

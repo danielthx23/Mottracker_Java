@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motos Disponíveis - Mottracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="shared/header :: header"></div>
+    
+    <div class="container-fluid flex-grow-1">
+        <div class="row">
+            <div th:replace="shared/sidebar :: sidebar"></div>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Motos Disponíveis</h1>
+                </div>
+                
+                <div class="row">
+                    <div th:each="moto : ${motos}" class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${moto.modeloMoto}">Modelo</h5>
+                                <p class="card-text">
+                                    <strong>Placa:</strong> <span th:text="${moto.placaMoto}"></span><br>
+                                    <strong>Ano:</strong> <span th:text="${moto.anoMoto}"></span><br>
+                                    <strong>Quilometragem:</strong> <span th:text="${moto.quilometragemMoto}"></span> km<br>
+                                    <strong>Estado:</strong> 
+                                    <span th:if="${moto.estadoMoto == 'RETIRADA'}" class="badge bg-primary">Retirada</span>
+                                    <span th:if="${moto.estadoMoto == 'NO_PATIO'}" class="badge bg-success">No Pátio</span>
+                                    <span th:if="${moto.estadoMoto == 'NO_PATIO_ERRADO'}" class="badge bg-warning">No Pátio Errado</span>
+                                    <span th:if="${moto.estadoMoto == 'NAO_DEVOLVIDA'}" class="badge bg-danger">Não Devolvida</span>
+                                </p>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" sec:authorize="hasAnyRole('USER', 'ADMIN', 'GERENTE', 'OPERADOR')">
+                                        <i class="fas fa-eye"></i> Ver Detalhes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div th:if="${#lists.isEmpty(motos)}" class="alert alert-info">
+                    <h4 class="alert-heading">Nenhuma moto disponível</h4>
+                    <p>No momento não há motos disponíveis para locação.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <div th:replace="shared/footer :: footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
+

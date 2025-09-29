@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Usuário Admin - Mottracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow mt-5">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Criar Usuário Admin</h2>
+                        
+                        <div th:if="${success}" class="alert alert-success" role="alert">
+                            <span th:text="${success}"></span>
+                        </div>
+                        
+                        <div th:if="${error}" class="alert alert-danger" role="alert">
+                            <span th:text="${error}"></span>
+                        </div>
+                        
+                        <form action="/admin/create-admin" method="post">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nomeUsuario" class="form-label">Nome Completo</label>
+                                    <input type="text" class="form-control" id="nomeUsuario" name="nomeUsuario" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="cpfUsuario" class="form-label">CPF</label>
+                                    <input type="text" class="form-control" id="cpfUsuario" name="cpfUsuario" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="emailUsuario" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="emailUsuario" name="emailUsuario" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="cnhUsuario" class="form-label">CNH</label>
+                                    <input type="text" class="form-control" id="cnhUsuario" name="cnhUsuario" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="senhaUsuario" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="senhaUsuario" name="senhaUsuario" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="dataNascimentoUsuario" class="form-label">Data de Nascimento</label>
+                                    <input type="date" class="form-control" id="dataNascimentoUsuario" name="dataNascimentoUsuario">
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <strong>Importante:</strong> Este usuário será criado com TODAS as permissões (ADMIN, GERENTE, OPERADOR, USER).
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Criar Usuário Admin</button>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <a href="/login" class="btn btn-secondary">Voltar ao Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

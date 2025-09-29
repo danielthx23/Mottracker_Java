@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Contratos - Mottracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="shared/header :: header"></div>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace="shared/sidebar :: sidebar"></div>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Meus Contratos</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <a href="/motos/disponiveis" class="btn btn-primary">
+                                <span data-feather="search"></span>
+                                Ver Motos Disponíveis
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Alertas -->
+                    <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <span th:text="${message}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <span th:text="${error}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+
+                    <!-- Cards de Contratos -->
+                    <div class="row" th:if="${contratos.content.size() > 0}">
+                        <div class="col-md-6 col-lg-4 mb-4" th:each="contrato : ${contratos.content}">
+                            <div class="card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Contrato #<span th:text="${contrato.idContrato}"></span></h6>
+                                    <span class="badge" 
+                                          th:classappend="${contrato.ativoContrato} ? 'bg-success' : 'bg-danger'"
+                                          th:text="${contrato.ativoContrato} ? 'Ativo' : 'Inativo'"></span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <strong>Moto:</strong> <span th:text="${contrato.motoContrato?.placaMoto}"></span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Modelo:</strong> <span th:text="${contrato.motoContrato?.modeloMoto}"></span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Valor Total:</strong> 
+                                        <span class="text-success fw-bold" th:text="'R$ ' + ${#numbers.formatDecimal(contrato.valorToralContrato, 1, 2)}"></span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Parcelas:</strong> <span th:text="${contrato.quantidadeParcelas}"></span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Data Entrada:</strong> 
+                                        <span th:text="${#temporals.format(contrato.dataDeEntradaContrato, 'dd/MM/yyyy')}"></span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Data Expiração:</strong> 
+                                        <span th:text="${#temporals.format(contrato.dataDeExpiracaoContrato, 'dd/MM/yyyy')}"></span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Renovações:</strong> <span th:text="${contrato.numeroRenovacoesContrato}"></span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-outline-primary btn-sm" th:if="${contrato.ativoContrato}">
+                                            <span data-feather="refresh-cw"></span>
+                                            Renovar Contrato
+                                        </button>
+                                        <button class="btn btn-outline-info btn-sm">
+                                            <span data-feather="download"></span>
+                                            Baixar Contrato
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mensagem quando não há contratos -->
+                    <div th:if="${contratos.content.size() == 0}" class="text-center py-5">
+                        <div class="mb-4">
+                            <span data-feather="file-text" style="width: 64px; height: 64px;" class="text-muted"></span>
+                        </div>
+                        <h4 class="text-muted">Nenhum contrato encontrado</h4>
+                        <p class="text-muted">Você ainda não possui contratos. Que tal dar uma olhada nas motos disponíveis?</p>
+                        <a href="/motos/disponiveis" class="btn btn-primary">
+                            <span data-feather="search"></span>
+                            Ver Motos Disponíveis
+                        </a>
+                    </div>
+
+                    <!-- Paginação -->
+                    <nav th:if="${contratos.totalPages > 1}">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${!contratos.hasPrevious()} ? 'disabled'">
+                                <a class="page-link" th:href="@{/contratos/meus(page=${contratos.number - 1})}">Anterior</a>
+                            </li>
+                            <li class="page-item" th:each="i : ${#numbers.sequence(0, contratos.totalPages - 1)}" 
+                                th:classappend="${i == contratos.number} ? 'active'">
+                                <a class="page-link" th:href="@{/contratos/meus(page=${i})}" th:text="${i + 1}"></a>
+                            </li>
+                            <li class="page-item" th:classappend="${!contratos.hasNext()} ? 'disabled'">
+                                <a class="page-link" th:href="@{/contratos/meus(page=${contratos.number + 1})}">Próximo</a>
+                            </li>
+                        </ul>
+                    </nav>
+            </main>
+        </div>
+    </div>
+    
+    <div th:replace="shared/footer :: footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${moto.placaMoto != null and !moto.placaMoto.isEmpty()} ? 'Editar Moto' : 'Nova Moto'">Moto - Mottracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="shared/header :: header"></div>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace="shared/sidebar :: sidebar"></div>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2" th:text="${moto.placaMoto != null and !moto.placaMoto.isEmpty()} ? 'Editar Moto' : 'Nova Moto'">Moto</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a href="/motos/gerenciar" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Voltar
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <form th:action="@{/motos/salvar}" th:object="${moto}" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="placaMoto" class="form-label">Placa</label>
+                                            <input type="text" class="form-control" id="placaMoto" th:field="*{placaMoto}" required>
+                                            <div th:if="${#fields.hasErrors('placaMoto')}" class="text-danger">
+                                                <span th:errors="*{placaMoto}"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label for="modeloMoto" class="form-label">Modelo</label>
+                                            <input type="text" class="form-control" id="modeloMoto" th:field="*{modeloMoto}" required>
+                                            <div th:if="${#fields.hasErrors('modeloMoto')}" class="text-danger">
+                                                <span th:errors="*{modeloMoto}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="anoMoto" class="form-label">Ano</label>
+                                            <input type="number" class="form-control" id="anoMoto" th:field="*{anoMoto}" required>
+                                            <div th:if="${#fields.hasErrors('anoMoto')}" class="text-danger">
+                                                <span th:errors="*{anoMoto}"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label for="quilometragemMoto" class="form-label">Quilometragem</label>
+                                            <input type="number" class="form-control" id="quilometragemMoto" th:field="*{quilometragemMoto}" required>
+                                            <div th:if="${#fields.hasErrors('quilometragemMoto')}" class="text-danger">
+                                                <span th:errors="*{quilometragemMoto}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="identificadorMoto" class="form-label">Identificador</label>
+                                            <input type="text" class="form-control" id="identificadorMoto" th:field="*{identificadorMoto}">
+                                            <div th:if="${#fields.hasErrors('identificadorMoto')}" class="text-danger">
+                                                <span th:errors="*{identificadorMoto}"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label for="estadoMoto" class="form-label">Estado</label>
+                                            <select class="form-select" id="estadoMoto" th:field="*{estadoMoto}">
+                                                <option value="">Selecione um estado</option>
+                                                <option value="RETIRADA">Retirada</option>
+                                                <option value="NO_PATIO">No Pátio</option>
+                                                <option value="NO_PATIO_ERRADO">No Pátio Errado</option>
+                                                <option value="NAO_DEVOLVIDA">Não Devolvida</option>
+                                            </select>
+                                            <div th:if="${#fields.hasErrors('estadoMoto')}" class="text-danger">
+                                                <span th:errors="*{estadoMoto}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="condicoesMoto" class="form-label">Condições</label>
+                                            <textarea class="form-control" id="condicoesMoto" th:field="*{condicoesMoto}" rows="3"></textarea>
+                                            <div th:if="${#fields.hasErrors('condicoesMoto')}" class="text-danger">
+                                                <span th:errors="*{condicoesMoto}"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label for="motoPatioAtualId" class="form-label">Pátio Atual</label>
+                                            <select class="form-select" id="motoPatioAtualId" th:field="*{motoPatioAtualId}">
+                                                <option value="">Selecione um pátio</option>
+                                                <option th:each="patio : ${patios}" 
+                                                        th:value="${patio.idPatio}" 
+                                                        th:text="${patio.nomePatio}"></option>
+                                            </select>
+                                            <div th:if="${#fields.hasErrors('motoPatioAtualId')}" class="text-danger">
+                                                <span th:errors="*{motoPatioAtualId}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <a href="/motos/gerenciar" class="btn btn-secondary me-md-2">Cancelar</a>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i> Salvar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <div th:replace="shared/footer :: footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
+

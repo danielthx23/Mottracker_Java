@@ -1,6 +1,7 @@
 package br.com.fiap.Mottracker.service;
 
 import br.com.fiap.Mottracker.dto.MotoRequestDto;
+import br.com.fiap.Mottracker.enums.Estados;
 import br.com.fiap.Mottracker.model.Contrato;
 import br.com.fiap.Mottracker.model.Moto;
 import br.com.fiap.Mottracker.model.Patio;
@@ -36,11 +37,16 @@ public class MotoService {
     }
 
     public Page<Moto> getByEstado(String estado, Pageable pageable) {
-        return motoRepository.findByEstadoMoto(estado, pageable);
+        Estados estadoEnum = Estados.valueOf(estado.toUpperCase());
+        return motoRepository.findByEstadoMoto(estadoEnum, pageable);
     }
 
     public Page<Moto> getByContratoId(Long contratoId, Pageable pageable) {
         return motoRepository.findByContratoMoto_IdContrato(contratoId, pageable);
+    }
+
+    public java.util.List<Moto> getDisponiveis() {
+        return motoRepository.findByEstadoMoto(Estados.NO_PATIO);
     }
 
     public Moto create(MotoRequestDto dto) {

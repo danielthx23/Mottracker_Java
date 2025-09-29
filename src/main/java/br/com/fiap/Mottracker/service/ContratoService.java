@@ -40,6 +40,10 @@ public class ContratoService {
         return contratoRepository.findByUsuarioContrato_IdUsuario(usuarioId, pageable);
     }
 
+    public Page<Contrato> getByUsuario(Long usuarioId, Pageable pageable) {
+        return contratoRepository.findByUsuarioContrato_IdUsuario(usuarioId, pageable);
+    }
+
     public Page<Contrato> getByMotoId(Long motoId, Pageable pageable) {
         return contratoRepository.findByMotoContrato_IdMoto(motoId, pageable);
     }
@@ -106,5 +110,19 @@ public class ContratoService {
             throw new EntityNotFoundException("Contrato não encontrado com ID: " + id);
         }
         contratoRepository.deleteById(id);
+    }
+
+    public void renovarContrato(Long id) {
+        Contrato contrato = getById(id);
+        contrato.setDataUltimaRenovacaoContrato(LocalDateTime.now());
+        contrato.setNumeroRenovacoesContrato(contrato.getNumeroRenovacoesContrato() + 1);
+        contrato.setDataDeExpiracaoContrato(contrato.getDataDeExpiracaoContrato().plusDays(30));
+        contratoRepository.save(contrato);
+    }
+
+    public void cancelarContrato(Long id) {
+        Contrato contrato = getById(id);
+        contrato.setAtivoContrato(0); // 0 = false, 1 = true
+        contratoRepository.save(contrato);
     }
 }

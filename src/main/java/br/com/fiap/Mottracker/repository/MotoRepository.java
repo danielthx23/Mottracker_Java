@@ -1,5 +1,6 @@
 package br.com.fiap.Mottracker.repository;
 
+import br.com.fiap.Mottracker.enums.Estados;
 import br.com.fiap.Mottracker.model.Moto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +15,10 @@ public interface MotoRepository extends JpaRepository<Moto, Long> {
 
     Optional<Moto> findByPlacaMoto(String placaMoto);
 
-    Page<Moto> findByEstadoMoto(String estadoMoto, Pageable pagable);
+    Page<Moto> findByEstadoMoto(Estados estadoMoto, Pageable pagable);
 
     Page<Moto> findByContratoMoto_IdContrato(Long contratoId, Pageable pagable);
+
+    List<Moto> findByEstadoMoto(Estados estadoMoto);
 
 }

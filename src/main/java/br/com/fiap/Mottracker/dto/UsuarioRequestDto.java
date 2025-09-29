@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public record UsuarioRequestDto(
@@ -25,7 +25,7 @@ public record UsuarioRequestDto(
         @Email
         String emailUsuario,
 
-        LocalDateTime dataNascimentoUsuario,
+        LocalDate dataNascimentoUsuario,
 
         List<TelefoneRequestDto> telefones
 

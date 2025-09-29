@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar QR Codes - Mottracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="shared/header :: header"></div>
+    
+    <div class="container-fluid flex-grow-1">
+        <div class="row">
+            <div th:replace="shared/sidebar :: sidebar"></div>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Gerenciar QR Codes</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <a href="/qrcodes/novo" class="btn btn-primary">
+                                <span data-feather="plus"></span>
+                                Novo QR Code
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Alertas -->
+                    <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <span th:text="${message}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <span th:text="${error}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+
+                    <!-- Tabela de QR Codes -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Identificador</th>
+                                    <th>Posição X</th>
+                                    <th>Posição Y</th>
+                                    <th>Layout do Pátio</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="qrCode : ${qrCodes.content}">
+                                    <td th:text="${qrCode.idQrCodePonto}"></td>
+                                    <td>
+                                        <span class="badge bg-primary" th:text="${qrCode.identificadorQrCode}"></span>
+                                    </td>
+                                    <td th:text="${qrCode.posX}"></td>
+                                    <td th:text="${qrCode.posY}"></td>
+                                    <td th:text="${qrCode.layoutPatio?.nomeLayoutPatio}"></td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a th:href="@{/qrcodes/editar/{id}(id=${qrCode.idQrCodePonto})}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <span data-feather="edit"></span>
+                                            </a>
+                                            <form th:action="@{/qrcodes/excluir/{id}(id=${qrCode.idQrCodePonto})}" 
+                                                  method="post" 
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('Tem certeza que deseja excluir este QR Code?')">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                    <span data-feather="trash-2"></span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginação -->
+                    <nav th:if="${qrCodes.totalPages > 1}">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${!qrCodes.hasPrevious()} ? 'disabled'">
+                                <a class="page-link" th:href="@{/qrcodes/gerenciar(page=${qrCodes.number - 1})}">Anterior</a>
+                            </li>
+                            <li class="page-item" th:each="i : ${#numbers.sequence(0, qrCodes.totalPages - 1)}" 
+                                th:classappend="${i == qrCodes.number} ? 'active'">
+                                <a class="page-link" th:href="@{/qrcodes/gerenciar(page=${i})}" th:text="${i + 1}"></a>
+                            </li>
+                            <li class="page-item" th:classappend="${!qrCodes.hasNext()} ? 'disabled'">
+                                <a class="page-link" th:href="@{/qrcodes/gerenciar(page=${qrCodes.number + 1})}">Próximo</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.js"></script>
+    <script>
+        feather.replace();
+    </script>
+    <div th:replace="shared/footer :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
+

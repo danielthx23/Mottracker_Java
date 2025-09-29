@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,10 @@ public class PermissaoService {
 
     public Page<Permissao> getAll(Pageable pageable) {
         return permissaoRepository.findAll(pageable);
+    }
+
+    public List<Permissao> getAll() {
+        return permissaoRepository.findAll();
     }
 
     public Permissao getById(Long id) {

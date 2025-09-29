@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+    <nav th:fragment="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+            <!-- Dashboard -->
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <span data-feather="home"></span>
+                        Dashboard
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Gestão de Usuários -->
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Gestão de Usuários</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/usuarios/gerenciar">
+                        <span data-feather="users"></span>
+                        Usuários
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/permissoes/gerenciar">
+                        <span data-feather="shield"></span>
+                        Permissões
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/telefones/gerenciar">
+                        <span data-feather="phone"></span>
+                        Telefones
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/usuario-permissoes/gerenciar">
+                        <span data-feather="user-check"></span>
+                        Usuário-Permissões
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Gestão de Motos -->
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Gestão de Motos</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/motos/gerenciar">
+                        <span data-feather="truck"></span>
+                        Motos
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/motos/disponiveis">
+                        <span data-feather="search"></span>
+                        Motos Disponíveis
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Gestão de Pátios -->
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Gestão de Pátios</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/patios/gerenciar">
+                        <span data-feather="map-pin"></span>
+                        Pátios
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/layouts/gerenciar">
+                        <span data-feather="layout"></span>
+                        Layouts
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/enderecos/gerenciar">
+                        <span data-feather="map"></span>
+                        Endereços
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/qrcodes/gerenciar">
+                        <span data-feather="grid"></span>
+                        QR Codes
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/cameras/gerenciar">
+                        <span data-feather="camera"></span>
+                        Câmeras
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Gestão de Contratos -->
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Gestão de Contratos</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN', 'GERENTE', 'OPERADOR')">
+                    <a class="nav-link" href="/contratos/meus">
+                        <span data-feather="file-text"></span>
+                        Meus Contratos
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE')">
+                    <a class="nav-link" href="/contratos/gerenciar">
+                        <span data-feather="clipboard"></span>
+                        Todos os Contratos
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Relatórios e Análises -->
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Relatórios</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE')">
+                    <a class="nav-link" href="/relatorios">
+                        <span data-feather="bar-chart-2"></span>
+                        Relatórios
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+</html>
+

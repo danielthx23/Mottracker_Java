@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Motos - Mottracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="shared/header :: header"></div>
+    
+    <div class="container-fluid flex-grow-1">
+        <div class="row">
+            <div th:replace="shared/sidebar :: sidebar"></div>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gerenciar Motos</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a href="/motos/novo" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nova Moto
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Placa</th>
+                                <th>Modelo</th>
+                                <th>Ano</th>
+                                <th>Quilometragem</th>
+                                <th>Estado</th>
+                                <th>Pátio Atual</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="moto : ${motos.content}">
+                                <td th:text="${moto.idMoto}"></td>
+                                <td th:text="${moto.placaMoto}"></td>
+                                <td th:text="${moto.modeloMoto}"></td>
+                                <td th:text="${moto.anoMoto}"></td>
+                                <td th:text="${moto.quilometragemMoto}"></td>
+                                <td>
+                                    <span th:switch="${moto.estadoMoto}" class="badge">
+                                        <span th:case="RETIRADA" class="badge bg-primary">Retirada</span>
+                                        <span th:case="NO_PATIO" class="badge bg-success">No Pátio</span>
+                                        <span th:case="NO_PATIO_ERRADO" class="badge bg-warning">No Pátio Errado</span>
+                                        <span th:case="NAO_DEVOLVIDA" class="badge bg-danger">Não Devolvida</span>
+                                        <span th:case="*" class="badge bg-light text-dark">Desconhecido</span>
+                                    </span>
+                                </td>
+                                <td th:text="${moto.motoPatioAtual?.nomePatio ?: 'N/A'}"></td>
+                                <td>
+                                    <a th:href="@{/motos/editar/{id}(id=${moto.idMoto})}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <a th:href="@{/motos/excluir/{id}(id=${moto.idMoto})}" 
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('Tem certeza que deseja excluir esta moto?')">
+                                        <i class="fas fa-trash"></i> Excluir
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <nav th:if="${motos.totalPages > 1}">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" th:classappend="${motos.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/motos/gerenciar(page=${motos.number - 1})}">Anterior</a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, motos.totalPages - 1)}" 
+                            th:classappend="${i == motos.number} ? 'active'">
+                            <a class="page-link" th:href="@{/motos/gerenciar(page=${i})}" th:text="${i + 1}"></a>
+                        </li>
+                        <li class="page-item" th:classappend="${motos.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/motos/gerenciar(page=${motos.number + 1})}">Próxima</a>
+                        </li>
+                    </ul>
+                </nav>
+            </main>
+        </div>
+    </div>
+    
+    <div th:replace="shared/footer :: footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
+

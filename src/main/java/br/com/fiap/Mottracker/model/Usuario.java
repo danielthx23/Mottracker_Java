@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +36,17 @@ public class Usuario {
     private String senhaUsuario;
 
     @NotNull
+    @Column(unique = true)
     private String cnhUsuario;
 
     @NotNull
     @Email
+    @Column(unique = true)
     private String emailUsuario;
 
     private String tokenUsuario;
 
-    private LocalDateTime dataNascimentoUsuario;
+    private LocalDate dataNascimentoUsuario;
 
     private LocalDateTime criadoEmUsuario;
 
