@@ -300,37 +300,6 @@ Para dúvidas ou problemas:
 - **GitHub**: [link-do-repositorio]
 - **Documentação**: Swagger UI disponível em `/swagger-ui.html`
 
-## Sprint 3 - Checklist de Entrega
-
-### Requisitos Técnicos Implementados
-
-#### **Thymeleaf (30 pontos)**
-- Páginas HTML completas para CRUD de todas as entidades
-- Fragmentos reutilizáveis (header, sidebar, footer)
-- Integração com Spring Security usando `sec:authorize`
-- Templates responsivos com Bootstrap 5.3.0
-- Navegação dinâmica baseada em permissões
-
-#### **Flyway (20 pontos)**
-- Configuração completa do Flyway habilitada
-- 4 migrações de banco de dados implementadas
-- Versionamento automático funcionando
-- Dados iniciais e usuários de teste criados
-
-#### **Spring Security (30 pontos)**
-- Autenticação via formulário (login/logout)
-- 4 tipos de usuário com permissões diferentes
-- Proteção de rotas baseada em roles
-- Criptografia de senhas com BCrypt
-- UserDetailsService implementado
-
-#### **Funcionalidades Completas (20 pontos)**
-- Fluxo de Autenticação completo
-- Fluxo de Gestão de Motos com validações
-- Fluxo de Gestão de Contratos
-- Validações Bean Validation em formulários
-- Dashboard com métricas em tempo real
-
 ### Guia para Demonstração (Máx. 10 min)
 
 #### **1. Login e Autenticação (2 min)**
@@ -380,40 +349,5 @@ Para dúvidas ou problemas:
 # Senha: admin123
 ```
 
-### Checklist de Entrega
+Video Demonstração:
 
-- [ ] **Repositório GitHub** público com código completo
-- [ ] **README** com instruções de instalação e execução
-- [ ] **Vídeo demonstração** (máx. 10 min) mostrando funcionalidades
-- [ ] **Aplicação funcionando** sem erros
-- [ ] **Todas as tecnologias** implementadas (Thymeleaf, Flyway, Spring Security)
-
-### Pontuação Esperada
-
-| Critério | Pontos | Status |
-|----------|--------|--------|
-| Thymeleaf | 30 | Completo |
-| Flyway | 20 | Completo |
-| Spring Security | 30 | Completo |
-| Funcionalidades | 20 | Completo |
-| **TOTAL** | **100** | **100%** |
-
-### Dicas para Apresentação Oral
-
-1. **Conheça o código**: Esteja preparado para explicar qualquer parte
-2. **Demonstre confiança**: Mostre que você entendeu as tecnologias
-3. **Explique decisões**: Justifique escolhas arquiteturais
-4. **Seja honesto**: Se usou IA, explique como e por quê
-5. **Pratique**: Execute a aplicação várias vezes antes da apresentação
-
-### Tecnologias Dominadas
-
-- **Spring Boot**: Framework principal
-- **Spring Security**: Autenticação e autorização
-- **Thymeleaf**: Templates dinâmicos
-- **Flyway**: Versionamento de banco
-- **JPA/Hibernate**: Persistência de dados
-- **Bootstrap**: Interface responsiva
-- **Oracle Database**: Banco de dados
-
----
