@@ -45,6 +45,11 @@ public class PermissaoWebController {
             permissao.getNomePermissao(),
             permissao.getDescricao()
         ));
+        
+        // Adicionar atributos para modo de edição
+        model.addAttribute("isEdit", true);
+        model.addAttribute("permissaoId", id);
+        
         return "permissoes/form";
     }
 

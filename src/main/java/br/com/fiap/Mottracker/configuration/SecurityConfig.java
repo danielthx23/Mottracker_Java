@@ -22,19 +22,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authz -> authz
@@ -44,25 +31,15 @@ public class SecurityConfig {
                 .requestMatchers("/admin/create-admin").permitAll()
                 .requestMatchers("/setup/**").permitAll()
                 
-                // Admin only access
-                .requestMatchers("/admin/**", "/usuarios/**", "/permissoes/**").hasRole("ADMIN")
-                
-                // Manager access
-                .requestMatchers("/relatorios/**", "/contratos/gerenciar").hasAnyRole("ADMIN", "GERENTE")
-                
-                // Operator access
-                .requestMatchers("/motos/gerenciar", "/patios/gerenciar").hasAnyRole("ADMIN", "OPERADOR", "GERENTE")
-                
-                // User access
-                .requestMatchers("/contratos/meus", "/motos/disponiveis").hasAnyRole("USER", "ADMIN", "GERENTE", "OPERADOR")
-                
-                // All authenticated users
+                // All other requests require authentication
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/dashboard", true)
                 .failureUrl("/login?error=true")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .permitAll()
             )
             .logout(logout -> logout

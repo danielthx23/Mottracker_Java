@@ -26,7 +26,7 @@ public class QrCodePonto {
     private float posY;
 
     @ManyToOne
-    @JoinColumn(name = "layoutPatioId")
+    @JoinColumn(name = "layout_patio_id")
     @JsonIgnoreProperties("qrCodesLayoutPatio")
     private LayoutPatio layoutPatio;
 }

@@ -1,4 +1,4 @@
-2package br.com.fiap.Mottracker.service;
+package br.com.fiap.Mottracker.service;
 
 import br.com.fiap.Mottracker.dto.TelefoneRequestDto;
 import br.com.fiap.Mottracker.dto.UsuarioLoginDto;
@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,8 +70,10 @@ public class UsuarioService implements UserDetailsService {
 
         existente.setNomeUsuario(dto.nomeUsuario());
         existente.setCpfUsuario(dto.cpfUsuario());
-        // Encode password before saving
-        existente.setSenhaUsuario(passwordEncoder.encode(dto.senhaUsuario()));
+        // Only encode password if it's not empty (user wants to change password)
+        if (dto.senhaUsuario() != null && !dto.senhaUsuario().trim().isEmpty()) {
+            existente.setSenhaUsuario(passwordEncoder.encode(dto.senhaUsuario()));
+        }
         existente.setCnhUsuario(dto.cnhUsuario());
         existente.setEmailUsuario(dto.emailUsuario());
         existente.setDataNascimentoUsuario(dto.dataNascimentoUsuario());
@@ -131,10 +134,27 @@ public class UsuarioService implements UserDetailsService {
         // Força o carregamento das permissões
         usuario.getUsuarioPermissoes().size();
         
-        List<GrantedAuthority> authorities = usuario.getUsuarioPermissoes().stream()
-                .map(up -> new SimpleGrantedAuthority("ROLE_" + up.getPermissao().getNomePermissao()))
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        System.out.println("DEBUG: Número de permissões: " + usuario.getUsuarioPermissoes().size());
+        
+        for (UsuarioPermissao up : usuario.getUsuarioPermissoes()) {
+            try {
+                System.out.println("DEBUG: Processando permissão: " + up.getPapel());
+                // Usar o campo papel diretamente em vez do relacionamento
+                if (up.getPapel() != null && !up.getPapel().isEmpty()) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + up.getPapel()));
+                } else {
+                    System.out.println("DEBUG: Papel é null ou vazio");
+                }
+            } catch (Exception e) {
+                System.out.println("DEBUG: Erro ao carregar permissão: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
 
+        System.out.println("DEBUG: Usuário: " + email);
+        System.out.println("DEBUG: Permissões: " + authorities);
+        
         return new User(usuario.getEmailUsuario(), usuario.getSenhaUsuario(), authorities);
     }
 

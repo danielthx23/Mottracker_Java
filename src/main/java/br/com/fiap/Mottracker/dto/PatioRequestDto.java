@@ -1,19 +1,22 @@
 package br.com.fiap.Mottracker.dto;
 
 import jakarta.validation.constraints.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public record PatioRequestDto(
 
-        @NotNull
+        @NotBlank
+        @Size(max = 100)
         String nomePatio,
 
+        @Min(0)
         int motosTotaisPatio,
 
+        @Min(0)
         int motosDisponiveisPatio,
 
-        LocalDateTime dataPatio,
+        LocalDate dataPatio,
 
         LayoutPatioRequestDto layoutPatio,
 

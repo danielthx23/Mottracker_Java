@@ -43,6 +43,7 @@ public class MotoWebController {
     @GetMapping("/novo")
     @PreAuthorize("hasAnyRole('OPERADOR', 'ADMIN', 'GERENTE')")
     public String novo(Model model) {
+        model.addAttribute("isEdit", false);
         model.addAttribute("moto", new MotoRequestDto("", "", 0, "", 0, null, "", null, null, null));
         // Use a Pageable to get all patios for the dropdown
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
@@ -53,6 +54,9 @@ public class MotoWebController {
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasAnyRole('OPERADOR', 'ADMIN', 'GERENTE')")
     public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("isEdit", true);
+        model.addAttribute("motoId", id);
+        
         Moto moto = motoService.getById(id);
         model.addAttribute("moto", new MotoRequestDto(
             moto.getPlacaMoto(),
@@ -95,6 +99,38 @@ public class MotoWebController {
             // Use a Pageable to get all patios for the dropdown
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         model.addAttribute("patios", patioService.getAll(pageable).getContent());
+            return "motos/form";
+        }
+    }
+
+    @PostMapping("/atualizar/{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR', 'ADMIN', 'GERENTE')")
+    public String atualizar(@PathVariable Long id,
+                          @Valid @ModelAttribute("moto") MotoRequestDto motoDto,
+                          BindingResult result,
+                          Model model,
+                          RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            // Use a Pageable to get all patios for the dropdown
+            Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
+            model.addAttribute("patios", patioService.getAll(pageable).getContent());
+            model.addAttribute("isEdit", true);
+            model.addAttribute("motoId", id);
+            return "motos/form";
+        }
+
+        try {
+            motoService.update(id, motoDto);
+            redirectAttributes.addFlashAttribute("message", "Moto atualizada com sucesso!");
+            return "redirect:/motos/gerenciar";
+        } catch (Exception e) {
+            model.addAttribute("error", "Erro ao atualizar moto: " + e.getMessage());
+            // Use a Pageable to get all patios for the dropdown
+            Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
+            model.addAttribute("patios", patioService.getAll(pageable).getContent());
+            model.addAttribute("isEdit", true);
+            model.addAttribute("motoId", id);
             return "motos/form";
         }
     }

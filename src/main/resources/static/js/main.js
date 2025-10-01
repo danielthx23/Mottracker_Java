@@ -1,6 +1,30 @@
 // Main JavaScript for Mottracker
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Ensure sidebar links are clickable
+    var sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+    sidebarLinks.forEach(function(link) {
+        link.style.pointerEvents = 'auto';
+        link.style.cursor = 'pointer';
+        link.style.zIndex = '1000';
+        link.style.display = 'block';
+        link.style.position = 'relative';
+        
+        // Add click event listener to ensure navigation works
+        link.addEventListener('click', function(e) {
+            console.log('Sidebar link clicked:', this.href);
+            // Allow default navigation
+            return true;
+        });
+    });
+    
+    // Also ensure nav-items are clickable
+    var navItems = document.querySelectorAll('.sidebar .nav-item');
+    navItems.forEach(function(item) {
+        item.style.pointerEvents = 'auto';
+        item.style.cursor = 'pointer';
+    });
+
     // Initialize tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

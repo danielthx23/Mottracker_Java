@@ -7,7 +7,9 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -15,47 +17,58 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "MT_CONTRATO_JAVA")
+@Table(name = "MT_CONTRATO_JAVA", 
+       uniqueConstraints = {
+           @UniqueConstraint(columnNames = {"usuario_contrato_id", "moto_contrato_id", "data_de_entrada_contrato"})
+       })
 public class Contrato {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_contrato")
     private Long idContrato;
 
+    @Column(name = "clausulas_contrato")
     private String clausulasContrato;
 
     @NotNull
-    private LocalDateTime dataDeEntradaContrato;
+    @Column(name = "data_de_entrada_contrato")
+    private LocalDate dataDeEntradaContrato;
+
+    @Column(name = "horario_de_devolucao_contrato")
+    private LocalTime horarioDeDevolucaoContrato;
 
     @NotNull
-    private LocalDateTime horarioDeDevolucaoContrato;
+    @Column(name = "data_de_expiracao_contrato")
+    private LocalDate dataDeExpiracaoContrato;
 
-    @NotNull
-    private LocalDateTime dataDeExpiracaoContrato;
-
-    @Column(name = "renovacaoAutomaticaContrato", columnDefinition = "NUMBER(1)")
+    @Column(name = "renovacao_automatica_contrato", columnDefinition = "NUMBER(1)")
     private Integer renovacaoAutomaticaContrato;
 
+    @Column(name = "data_ultima_renovacao_contrato")
     private LocalDateTime dataUltimaRenovacaoContrato;
 
+    @Column(name = "numero_renovacoes_contrato")
     private int numeroRenovacoesContrato;
 
-    @Column(name = "ativoContrato", columnDefinition = "NUMBER(1)")
+    @Column(name = "ativo_contrato", columnDefinition = "NUMBER(1)")
     private Integer ativoContrato;
 
     @NotNull
+    @Column(name = "valor_toral_contrato")
     private BigDecimal valorToralContrato;
 
     @NotNull
+    @Column(name = "quantidade_parcelas")
     private int quantidadeParcelas;
 
     @ManyToOne
-    @JoinColumn(name = "usuarioContratoId")
+    @JoinColumn(name = "usuario_contrato_id")
     @JsonIgnoreProperties("contratos")
     private Usuario usuarioContrato;
 
     @ManyToOne
-    @JoinColumn(name = "motoContratoId")
+    @JoinColumn(name = "moto_contrato_id")
     @JsonIgnoreProperties("contratos")
     private Moto motoContrato;
 

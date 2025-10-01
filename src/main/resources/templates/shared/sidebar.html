@@ -6,7 +6,7 @@
             <!-- Dashboard -->
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">
+                    <a class="nav-link" href="/dashboard" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="home"></span>
                         Dashboard
                     </a>
@@ -19,25 +19,25 @@
             </h6>
             <ul class="nav flex-column">
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" href="/usuarios/gerenciar">
+                    <a class="nav-link" href="/usuarios/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="users"></span>
                         Usuários
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" href="/permissoes/gerenciar">
+                    <a class="nav-link" href="/permissoes/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="shield"></span>
                         Permissões
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/telefones/gerenciar">
+                    <a class="nav-link" href="/telefones/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="phone"></span>
                         Telefones
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" href="/usuario-permissoes/gerenciar">
+                    <a class="nav-link" href="/usuario-permissoes/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="user-check"></span>
                         Usuário-Permissões
                     </a>
@@ -50,13 +50,13 @@
             </h6>
             <ul class="nav flex-column">
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/motos/gerenciar">
+                    <a class="nav-link" href="/motos/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="truck"></span>
                         Motos
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/motos/disponiveis">
+                    <a class="nav-link" href="/motos/disponiveis" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="search"></span>
                         Motos Disponíveis
                     </a>
@@ -69,31 +69,31 @@
             </h6>
             <ul class="nav flex-column">
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/patios/gerenciar">
+                    <a class="nav-link" href="/patios/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="map-pin"></span>
                         Pátios
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/layouts/gerenciar">
+                    <a class="nav-link" href="/layouts/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="layout"></span>
                         Layouts
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/enderecos/gerenciar">
+                    <a class="nav-link" href="/enderecos/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="map"></span>
                         Endereços
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/qrcodes/gerenciar">
+                    <a class="nav-link" href="/qrcodes/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="grid"></span>
                         QR Codes
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/cameras/gerenciar">
+                    <a class="nav-link" href="/cameras/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="camera"></span>
                         Câmeras
                     </a>
@@ -106,13 +106,13 @@
             </h6>
             <ul class="nav flex-column">
                 <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN', 'GERENTE', 'OPERADOR')">
-                    <a class="nav-link" href="/contratos/meus">
+                    <a class="nav-link" href="/contratos/meus" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="file-text"></span>
                         Meus Contratos
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE')">
-                    <a class="nav-link" href="/contratos/gerenciar">
+                    <a class="nav-link" href="/contratos/gerenciar" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="clipboard"></span>
                         Todos os Contratos
                     </a>
@@ -125,7 +125,7 @@
             </h6>
             <ul class="nav flex-column">
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'GERENTE')">
-                    <a class="nav-link" href="/relatorios">
+                    <a class="nav-link" href="/relatorios" style="pointer-events: auto; cursor: pointer; z-index: 1000;">
                         <span data-feather="bar-chart-2"></span>
                         Relatórios
                     </a>

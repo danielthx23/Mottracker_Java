@@ -33,6 +33,7 @@ public class TelefoneWebController {
         return "telefones/list";
     }
 
+
     @GetMapping("/novo")
     @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')")
     public String novo(Model model) {
@@ -54,6 +55,10 @@ public class TelefoneWebController {
             telefone.getTipo(),
             telefone.getUsuario() != null ? telefone.getUsuario().getIdUsuario() : null
         ));
+        
+        // Adicionar atributos para modo de edição
+        model.addAttribute("isEdit", true);
+        model.addAttribute("telefoneId", id);
         
         // Carregar usuários para o dropdown
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);

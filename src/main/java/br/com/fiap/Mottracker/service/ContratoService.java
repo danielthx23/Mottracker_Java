@@ -13,7 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -63,24 +66,41 @@ public class ContratoService {
     }
 
     public Contrato create(ContratoRequestDto dto) {
+        System.out.println("=== DEBUG CONTRATO SERVICE CREATE ===");
+        System.out.println("DTO: " + dto);
+
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + dto.usuarioId()));
         Moto moto = motoRepository.findById(dto.motoId())
                 .orElseThrow(() -> new EntityNotFoundException("Moto não encontrada com ID: " + dto.motoId()));
 
+        System.out.println("Usuário encontrado: " + usuario.getNomeUsuario());
+        System.out.println("Moto encontrada: " + moto.getPlacaMoto());
+
+        // Verificar se já existe um contrato com os mesmos dados
+        List<Contrato> contratosExistentes = contratoRepository.findByUsuarioContratoAndMotoContratoAndDataDeEntradaContrato(
+            usuario, moto, dto.dataDeEntradaContrato());
+        
+        if (!contratosExistentes.isEmpty()) {
+            throw new IllegalStateException("Já existe um contrato para este usuário, moto e data de entrada");
+        }
+
         Contrato contrato = new Contrato();
         contrato.setClausulasContrato(dto.clausulasContrato());
         contrato.setDataDeEntradaContrato(dto.dataDeEntradaContrato());
-        contrato.setHorarioDeDevolucaoContrato(dto.horarioDeDevolucaoContrato());
+        contrato.setHorarioDeDevolucaoContrato(dto.horarioDeDevolucaoContrato() != null ? dto.horarioDeDevolucaoContrato() : LocalTime.of(18, 0));
         contrato.setDataDeExpiracaoContrato(dto.dataDeExpiracaoContrato());
-        contrato.setRenovacaoAutomatica(dto.renovacaoAutomatica());
+        contrato.setRenovacaoAutomatica(dto.renovacaoAutomatica() != null && dto.renovacaoAutomatica());
         contrato.setAtivoContrato(1); // contrato é ativo ao ser criado
         contrato.setValorToralContrato(dto.valorToralContrato());
         contrato.setQuantidadeParcelas(dto.quantidadeParcelas());
         contrato.setUsuarioContrato(usuario);
         contrato.setMotoContrato(moto);
 
-        return contratoRepository.save(contrato);
+        System.out.println("Salvando contrato...");
+        Contrato saved = contratoRepository.save(contrato);
+        System.out.println("Contrato salvo com ID: " + saved.getIdContrato());
+        return saved;
     }
 
     public Contrato update(Long id, ContratoRequestDto dto) {
@@ -94,9 +114,9 @@ public class ContratoService {
 
         contrato.setClausulasContrato(dto.clausulasContrato());
         contrato.setDataDeEntradaContrato(dto.dataDeEntradaContrato());
-        contrato.setHorarioDeDevolucaoContrato(dto.horarioDeDevolucaoContrato());
+        contrato.setHorarioDeDevolucaoContrato(dto.horarioDeDevolucaoContrato() != null ? dto.horarioDeDevolucaoContrato() : LocalTime.of(18, 0));
         contrato.setDataDeExpiracaoContrato(dto.dataDeExpiracaoContrato());
-        contrato.setRenovacaoAutomatica(dto.renovacaoAutomatica());
+        contrato.setRenovacaoAutomatica(dto.renovacaoAutomatica() != null && dto.renovacaoAutomatica());
         contrato.setValorToralContrato(dto.valorToralContrato());
         contrato.setQuantidadeParcelas(dto.quantidadeParcelas());
         contrato.setUsuarioContrato(usuario);

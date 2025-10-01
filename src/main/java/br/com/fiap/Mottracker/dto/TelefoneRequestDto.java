@@ -10,6 +10,7 @@ public record TelefoneRequestDto(
         @Size(max = 20)
         String numero,
 
+        @NotBlank
         @Size(max = 30)
         String tipo,
 

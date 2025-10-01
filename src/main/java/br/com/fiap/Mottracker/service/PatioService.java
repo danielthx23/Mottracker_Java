@@ -46,17 +46,35 @@ public class PatioService {
     }
 
     public Patio create(PatioRequestDto dto) {
+        System.out.println("=== DEBUG PATIO SERVICE CREATE ===");
+        System.out.println("DTO: " + dto);
+        
         Patio patio = new Patio();
         patio.setNomePatio(dto.nomePatio());
         patio.setMotosTotaisPatio(dto.motosTotaisPatio());
         patio.setMotosDisponiveisPatio(dto.motosDisponiveisPatio());
         patio.setDataPatio(dto.dataPatio());
 
-        patio.setEnderecoPatio(fromEnderecoDto(dto.enderecoPatio(), patio));
-        patio.setLayoutPatio(fromLayoutDto(dto.layoutPatio(), patio));
-        patio.setCamerasPatio(fromCameraDtoList(dto.camerasPatio(), patio));
+        System.out.println("Patio criado: " + patio);
 
-        return patioRepository.save(patio);
+        // Só processar se não for null
+        if (dto.enderecoPatio() != null) {
+            System.out.println("Processando endereco...");
+            patio.setEnderecoPatio(fromEnderecoDto(dto.enderecoPatio(), patio));
+        }
+        if (dto.layoutPatio() != null) {
+            System.out.println("Processando layout...");
+            patio.setLayoutPatio(fromLayoutDto(dto.layoutPatio(), patio));
+        }
+        if (dto.camerasPatio() != null) {
+            System.out.println("Processando cameras...");
+            patio.setCamerasPatio(fromCameraDtoList(dto.camerasPatio(), patio));
+        }
+
+        System.out.println("Salvando pátio...");
+        Patio saved = patioRepository.save(patio);
+        System.out.println("Pátio salvo com ID: " + saved.getIdPatio());
+        return saved;
     }
 
     public Patio update(Long id, PatioRequestDto dto) {
@@ -68,9 +86,16 @@ public class PatioService {
         existente.setMotosDisponiveisPatio(dto.motosDisponiveisPatio());
         existente.setDataPatio(dto.dataPatio());
 
-        existente.setEnderecoPatio(fromEnderecoDto(dto.enderecoPatio(), existente));
-        existente.setLayoutPatio(fromLayoutDto(dto.layoutPatio(), existente));
-        existente.setCamerasPatio(fromCameraDtoList(dto.camerasPatio(), existente));
+        // Só processar se não for null
+        if (dto.enderecoPatio() != null) {
+            existente.setEnderecoPatio(fromEnderecoDto(dto.enderecoPatio(), existente));
+        }
+        if (dto.layoutPatio() != null) {
+            existente.setLayoutPatio(fromLayoutDto(dto.layoutPatio(), existente));
+        }
+        if (dto.camerasPatio() != null) {
+            existente.setCamerasPatio(fromCameraDtoList(dto.camerasPatio(), existente));
+        }
 
         return patioRepository.save(existente);
     }

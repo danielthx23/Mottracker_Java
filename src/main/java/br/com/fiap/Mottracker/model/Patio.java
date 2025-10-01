@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class Patio {
 
     private int motosDisponiveisPatio;
 
-    private LocalDateTime dataPatio;
+    private LocalDate dataPatio;
 
     @OneToMany(mappedBy = "motoPatioAtual", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnoreProperties("motoPatioAtual")

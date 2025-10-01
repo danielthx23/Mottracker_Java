@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Motos - Mottracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.css" rel="stylesheet">
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body>
     <div th:replace="shared/header :: header"></div>
     
-    <div class="container-fluid flex-grow-1">
+    <div class="container-fluid">
         <div class="row">
             <div th:replace="shared/sidebar :: sidebar"></div>
             
@@ -46,12 +46,15 @@
                                 <td th:text="${moto.anoMoto}"></td>
                                 <td th:text="${moto.quilometragemMoto}"></td>
                                 <td>
+                                    
                                     <span th:switch="${moto.estadoMoto}" class="badge">
-                                        <span th:case="RETIRADA" class="badge bg-primary">Retirada</span>
-                                        <span th:case="NO_PATIO" class="badge bg-success">No Pátio</span>
-                                        <span th:case="NO_PATIO_ERRADO" class="badge bg-warning">No Pátio Errado</span>
-                                        <span th:case="NAO_DEVOLVIDA" class="badge bg-danger">Não Devolvida</span>
-                                        <span th:case="*" class="badge bg-light text-dark">Desconhecido</span>
+                                        <span th:case="${T(br.com.fiap.Mottracker.enums.Estados).NO_PATIO}" class="badge bg-success">No Pátio</span>
+                                        <span th:case="${T(br.com.fiap.Mottracker.enums.Estados).RETIRADA}" class="badge bg-primary">Retirada</span>
+                                        <span th:case="${T(br.com.fiap.Mottracker.enums.Estados).NO_PATIO_ERRADO}" class="badge bg-warning">No Pátio Errado</span>
+                                        <span th:case="${T(br.com.fiap.Mottracker.enums.Estados).NAO_DEVOLVIDA}" class="badge bg-danger">Não Devolvida</span>
+                                        <span th:case="*" class="badge bg-secondary">
+                                            <span th:text="'Desconhecido: ' + ${moto.estadoMoto}">Desconhecido</span>
+                                        </span>
                                     </span>
                                 </td>
                                 <td th:text="${moto.motoPatioAtual?.nomePatio ?: 'N/A'}"></td>
@@ -91,6 +94,10 @@
     <div th:replace="shared/footer :: footer"></div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.js"></script>
+    <script>
+        feather.replace();
+    </script>
     <script src="/js/main.js"></script>
 </body>
 </html>

@@ -2,26 +2,29 @@ package br.com.fiap.Mottracker.dto;
 
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record ContratoRequestDto(
 
         String clausulasContrato,
 
         @NotNull
-        LocalDateTime dataDeEntradaContrato,
+        LocalDate dataDeEntradaContrato,
+
+        LocalTime horarioDeDevolucaoContrato,
 
         @NotNull
-        LocalDateTime horarioDeDevolucaoContrato,
+        LocalDate dataDeExpiracaoContrato,
+
+        Boolean renovacaoAutomatica,
 
         @NotNull
-        LocalDateTime dataDeExpiracaoContrato,
-
-        boolean renovacaoAutomatica,
-
+        @DecimalMin(value = "0.0", inclusive = false)
         BigDecimal valorToralContrato,
 
         @NotNull
+        @Min(1)
         Integer quantidadeParcelas,
 
         @NotNull

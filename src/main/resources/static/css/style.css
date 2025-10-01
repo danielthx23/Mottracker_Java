@@ -15,9 +15,10 @@ body {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 100;
+    z-index: 1000;
     padding: 48px 0 0;
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    pointer-events: auto;
 }
 
 .sidebar-sticky {
@@ -29,9 +30,18 @@ body {
     overflow-y: auto;
 }
 
+.sidebar .nav-item {
+    pointer-events: auto;
+}
+
 .sidebar .nav-link {
     font-weight: 500;
     color: #333;
+    pointer-events: auto;
+    cursor: pointer;
+    position: relative;
+    z-index: 1000;
+    display: block;
 }
 
 .sidebar .nav-link:hover {
@@ -188,6 +198,39 @@ body {
     color: #fff;
     background-color: #4e73df;
     border-color: #4e73df;
+}
+
+/* Fix sidebar click issues */
+.sidebar * {
+    pointer-events: auto !important;
+}
+
+.sidebar .nav-link {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 1000 !important;
+    position: relative !important;
+    display: block !important;
+    text-decoration: none !important;
+}
+
+.sidebar .nav-item {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.sidebar .nav-item a {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 1000 !important;
+    position: relative !important;
+    display: block !important;
+    text-decoration: none !important;
+}
+
+/* Ensure no elements are blocking sidebar */
+body {
+    position: relative;
 }
 
 /* Responsive adjustments */

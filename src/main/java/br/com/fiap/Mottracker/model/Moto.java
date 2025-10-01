@@ -32,20 +32,21 @@ public class Moto {
 
     private int quilometragemMoto;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Estados estadoMoto;
 
     private String condicoesMoto;
 
     @OneToOne
-    @JoinColumn(name = "contratoMotoId")
+    @JoinColumn(name = "contrato_moto_id")
     @JsonIgnoreProperties("motoContrato")
     private Contrato contratoMoto;
 
     @ManyToOne
-    @JoinColumn(name = "motoPatioAtualId")
+    @JoinColumn(name = "moto_patio_atual_id")
     @JsonIgnoreProperties("motosPatioAtual")
     private Patio motoPatioAtual;
 
+    @Column(name = "moto_patio_origem_id")
     private Long motoPatioOrigemId;
 }

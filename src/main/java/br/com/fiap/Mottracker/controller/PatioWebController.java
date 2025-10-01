@@ -52,6 +52,11 @@ public class PatioWebController {
             null, // camerasPatio
             null  // motosPatioAtual
         ));
+        
+        // Adicionar atributos para modo de edição
+        model.addAttribute("isEdit", true);
+        model.addAttribute("patioId", id);
+        
         return "patios/form";
     }
 
@@ -62,15 +67,26 @@ public class PatioWebController {
                        Model model,
                        RedirectAttributes redirectAttributes) {
 
+        System.out.println("=== DEBUG PATIO SALVAR ===");
+        System.out.println("PatioDto: " + patioDto);
+        System.out.println("Has errors: " + result.hasErrors());
+        if (result.hasErrors()) {
+            System.out.println("Errors: " + result.getAllErrors());
+        }
+
         if (result.hasErrors()) {
             return "patios/form";
         }
 
         try {
+            System.out.println("Tentando criar pátio...");
             patioService.create(patioDto);
+            System.out.println("Pátio criado com sucesso!");
             redirectAttributes.addFlashAttribute("message", "Pátio salvo com sucesso!");
             return "redirect:/patios/gerenciar";
         } catch (Exception e) {
+            System.out.println("Erro ao criar pátio: " + e.getMessage());
+            e.printStackTrace();
             model.addAttribute("error", "Erro ao salvar pátio: " + e.getMessage());
             return "patios/form";
         }

@@ -36,6 +36,7 @@ public class QrCodePontoWebController {
     @GetMapping("/novo")
     @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')")
     public String novo(Model model) {
+        model.addAttribute("isEdit", false);
         model.addAttribute("qrCode", new QrCodePontoRequestDto("", 0.0f, 0.0f, null));
         
         // Carregar layouts de pátio para o dropdown
@@ -48,6 +49,9 @@ public class QrCodePontoWebController {
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'OPERADOR')")
     public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("isEdit", true);
+        model.addAttribute("qrCodeId", id);
+        
         QrCodePonto qrCode = qrCodePontoService.getById(id);
         model.addAttribute("qrCode", new QrCodePontoRequestDto(
             qrCode.getIdentificadorQrCode(),

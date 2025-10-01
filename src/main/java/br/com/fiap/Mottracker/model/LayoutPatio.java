@@ -16,7 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "MT_LAYOUT_PATIO_JAVA")
+@Table(name = "MT_LAYOUT_PATIO_JAVA", 
+       uniqueConstraints = {
+           @UniqueConstraint(columnNames = {"patio_layout_patio_id"})
+       })
 public class LayoutPatio {
 
     @Id
@@ -36,7 +39,7 @@ public class LayoutPatio {
     private BigDecimal altura;
 
     @OneToOne
-    @JoinColumn(name = "patioLayoutPatioId")
+    @JoinColumn(name = "patio_layout_patio_id")
     @JsonIgnoreProperties("layoutPatio")
     private Patio patioLayoutPatio;
 

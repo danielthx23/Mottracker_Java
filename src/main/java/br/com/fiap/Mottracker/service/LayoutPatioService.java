@@ -45,6 +45,13 @@ public class LayoutPatioService {
         Patio patio = patioRepository.findById(dto.patioId())
                 .orElseThrow(() -> new EntityNotFoundException("Pátio não encontrado com ID: " + dto.patioId()));
 
+        // Verificar se já existe um layout para este pátio
+        LayoutPatio existingLayout = layoutPatioRepository.findByPatioLayoutPatio_IdPatio(dto.patioId(), Pageable.unpaged()).getContent().stream().findFirst().orElse(null);
+        
+        if (existingLayout != null) {
+            throw new IllegalStateException("Já existe um layout para este pátio. Use a opção de editar para modificar o layout existente.");
+        }
+
         LayoutPatio layout = new LayoutPatio();
         layout.setDescricao(dto.descricao());
         layout.setComprimento(dto.comprimento());
@@ -64,6 +71,15 @@ public class LayoutPatioService {
 
         Patio patio = patioRepository.findById(dto.patioId())
                 .orElseThrow(() -> new EntityNotFoundException("Pátio não encontrado com ID: " + dto.patioId()));
+
+        // Verificar se o pátio já tem um layout diferente
+        if (!layout.getPatioLayoutPatio().getIdPatio().equals(dto.patioId())) {
+            LayoutPatio existingLayout = layoutPatioRepository.findByPatioLayoutPatio_IdPatio(dto.patioId(), Pageable.unpaged()).getContent().stream().findFirst().orElse(null);
+            
+            if (existingLayout != null) {
+                throw new IllegalStateException("Já existe um layout para este pátio. Use a opção de editar para modificar o layout existente.");
+            }
+        }
 
         layout.setDescricao(dto.descricao());
         layout.setComprimento(dto.comprimento());
@@ -93,9 +109,19 @@ public class LayoutPatioService {
     }
 
     public void delete(Long id) {
-        if (!layoutPatioRepository.existsById(id)) {
-            throw new EntityNotFoundException("Layout Patio não encontrado com ID: " + id);
+        LayoutPatio layout = layoutPatioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Layout Patio não encontrado com ID: " + id));
+        
+        // Limpar a referência do pátio para o layout
+        if (layout.getPatioLayoutPatio() != null) {
+            layout.getPatioLayoutPatio().setLayoutPatio(null);
         }
+        
+        // Limpar os QR codes primeiro
+        layout.getQrCodesLayoutPatio().clear();
+        layoutPatioRepository.save(layout);
+        
+        // Excluir o layout
         layoutPatioRepository.deleteById(id);
     }
 }
