@@ -40,6 +40,7 @@ public class UsuarioService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final PermissaoRepository permissaoRepository;
     private final UsuarioPermissaoRepository usuarioPermissaoRepository;
+    private final SegurancaService segurancaService;
 
     public Page<Usuario> getAll(Pageable pageable) {
         return usuarioRepository.findAll(pageable);
@@ -51,6 +52,12 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public Usuario create(UsuarioRequestDto dto) {
+        // Validar senha antes de criar usuário
+        String validacaoSenha = segurancaService.validarSenhaJava(dto.senhaUsuario());
+        if (!"OK".equals(validacaoSenha)) {
+            throw new IllegalArgumentException(validacaoSenha);
+        }
+        
         Usuario usuario = fromDto(dto);
         usuario.setCriadoEmUsuario(LocalDateTime.now());
         // Encode password before saving
@@ -72,6 +79,11 @@ public class UsuarioService implements UserDetailsService {
         existente.setCpfUsuario(dto.cpfUsuario());
         // Only encode password if it's not empty (user wants to change password)
         if (dto.senhaUsuario() != null && !dto.senhaUsuario().trim().isEmpty()) {
+            // Validar senha antes de atualizar
+            String validacaoSenha = segurancaService.validarSenhaJava(dto.senhaUsuario());
+            if (!"OK".equals(validacaoSenha)) {
+                throw new IllegalArgumentException(validacaoSenha);
+            }
             existente.setSenhaUsuario(passwordEncoder.encode(dto.senhaUsuario()));
         }
         existente.setCnhUsuario(dto.cnhUsuario());

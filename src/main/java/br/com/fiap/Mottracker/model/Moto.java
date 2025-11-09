@@ -32,7 +32,7 @@ public class Moto {
 
     private int quilometragemMoto;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Estados estadoMoto;
 
     private String condicoesMoto;
