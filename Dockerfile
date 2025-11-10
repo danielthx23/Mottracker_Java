@@ -1,4 +1,4 @@
-FROM openjdk:21-jdk AS build
+FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu AS build
 
 WORKDIR /workspace/app
 
@@ -12,7 +12,7 @@ RUN ./mvnw install -DskipTests
 
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-FROM openjdk:21-jdk
+FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu
 
 VOLUME /tmp
 
